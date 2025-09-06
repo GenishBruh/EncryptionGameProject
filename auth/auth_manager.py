@@ -3,8 +3,17 @@ import hashlib
 
 file_path = "storage.json"
 
+def get_file_data():
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = {}
 
-# very unnecessary considering it's a player-sided project lol but for the flex
+    return data
+
+
+# very unnecessary considering it's a client-sided project lol but for the flex
 def hash_password(password: str) -> str:
     """Return SHA-256 hash of the password as a hex string."""
     return hashlib.sha256(password.encode()).hexdigest()
@@ -58,7 +67,7 @@ def log_in(username, password):
 
             for existing_username in data.keys():
                 if existing_username.lower() == username.lower(): # Check if username exists
-                    if data[username]["password"] == hash_password(password):
+                    if data[existing_username]["password"] == hash_password(password):
                         return "Success!"
                     else:
                         return "Invalid password"
@@ -72,3 +81,11 @@ def log_in(username, password):
         return "File is empty or corrupted."
     except Exception:
         return "Unknown error"
+
+def update_data(data: dict):
+    try:
+        with open(file=file_path, mode='w') as json_file:
+            json.dump(data, json_file, indent=4)  # indent=4 for pretty printing
+            print("JSON file written successfully!")
+    except TypeError:
+        print("You wrote an invalid type to the JSON file.")
