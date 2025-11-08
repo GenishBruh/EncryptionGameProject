@@ -85,7 +85,7 @@ ENCRYPTION_INFO = {
             "Your task is to reconstruct the zigzag to reveal the original message.")
 }
 # Load the words once
-with open("C:/Users/User/Downloads/google-10000-english-no-swears.txt", "r") as file:
+with open("google-10000-english-no-swears.txt", "r") as file:
     words = [line.strip() for line in file]
 
 words1 = [w for w in words if 4 <= len(w) <= 6]
